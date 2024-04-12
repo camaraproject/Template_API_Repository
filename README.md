@@ -16,13 +16,14 @@ Repository to describe, develop, document, and test the §repo_name§ API family
   * NOTE: The scope of this API family should be limited (at least at the first stage) to 4G and 5G.  
 * Describe, develop, document, and test the APIs (with 1-2 Telcos)  
 * Started: §start date§
-* [Latest Release](https://github.com/camaraproject/§repo_name§/releases/latest)
 
 ## Contributing
 * Meetings
     * [Registration](https://wiki.camaraproject.org/x/TQAG) Update this link with your meeting join link
     * Schedule: 
-    * [Minutes](https://wiki.camaraproject.org/x/TQAG) Update this link to your wiki page using the "Share" link
+    * Minutes: Access [meeting minutes] (update this link to your wiki page using the "Share" link).
 * Mailing List
     * Subscribe / Unsubscribe to the mailing list of this Sub Project <https://lists.camaraproject.org/g/sp-§api_family_abbreviation§>.
     * A message to all Contributors of this Sub Project can be sent using <sp-§api_family_abbreviation§@lists.camaraproject.org>.
+* [Latest Release](https://github.com/camaraproject/§repo_name§/releases/latest)
+    * Release Tracking: Follow updates on our [wiki release tracking page] (Link to wiki release tracking page using the "share" link from Confluence)
