@@ -26,4 +26,4 @@ Repository to describe, develop, document, and test the §repo_name§ API family
     * Subscribe / Unsubscribe to the mailing list of this Sub Project <https://lists.camaraproject.org/g/sp-§api_family_abbreviation§>.
     * A message to the community of this Sub Project can be sent using <sp-§api_family_abbreviation§@lists.camaraproject.org>.
 * [Latest Release](https://github.com/camaraproject/§repo_name§/releases/latest)
-    * Release Tracking: Follow updates on our [wiki release tracking page] (Link to wiki release tracking page using the "share" link from Confluence)
+    * Release Tracking: For changes see the [CHANGELOG.md](https://github.com/camaraproject/§repo_name§/blob/main/CHANGELOG.md)
