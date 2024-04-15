@@ -17,6 +17,13 @@ Repository to describe, develop, document, and test the §repo_name§ API family
 * Describe, develop, document, and test the APIs (with 1-2 Telcos)  
 * Started: §start date§
 
+## Status and released versions
+<!-- Use/uncomment one or multiple the following options -->
+<!-- The sub project has no (pre)releases yet, work in progress is within the main branch -->
+<!-- Pre-releases of this sub project are available in https://github.com/camaraproject/§repo_name§/releases -->
+<!-- The latest public release is available here: https://github.com/camaraproject/§repo_name§/releases/latest -->
+<!-- For changes see [CHANGELOG.md](https://github.com/camaraproject/§repo_name§/blob/main/CHANGELOG.md) -->
+
 ## Contributing
 * Meetings
     * [Registration](https://wiki.camaraproject.org/x/TQAG) Update this link with your meeting join link
