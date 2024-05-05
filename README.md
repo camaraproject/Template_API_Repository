@@ -8,13 +8,15 @@
 
 # §repo_name§
 Repository to describe, develop, document, and test the §repo_name§ API family
+<!-- Alternative if an additional API repo of an existing API family: "Repository to describe, develop, document, and test the §repo_name§ API of the $api-familiy$ API group" -->
 
 ## Scope
-* Service APIs for “§repo_name§” (see APIBacklog.md)  
+* Service APIs for “§repo_name§” (see APIBacklog.md)
 * It provides the customer with the ability to:  
-  * §API family description§.
+  * §API (family) description§.
+  <!-- delete the following line if the scope of the API is defined differently in APIBacklog -->:
   * NOTE: The scope of this API family should be limited (at least at the first stage) to 4G and 5G.  
-* Describe, develop, document, and test the APIs (with 1-2 Telcos)  
+* Describe, develop, document, and test the APIs
 * Started: §start date§
 
 ## Release Information
@@ -25,10 +27,11 @@ Repository to describe, develop, document, and test the §repo_name§ API family
 <!-- For changes see [CHANGELOG.md](https://github.com/camaraproject/§repo_name§/blob/main/CHANGELOG.md) -->
 
 ## Contributing
-* Meetings
+* Meetings <!-- for new API families request a meeting link from the LF admin team or replace the information with the existing meeting information (of the API family) -->
     * [Registration](https://wiki.camaraproject.org/x/TQAG) Update this link with your meeting join link
     * Schedule: 
     * Minutes: Access [meeting minutes] (update this link to your wiki page using the "Share" link).
 * Mailing List
-    * Subscribe / Unsubscribe to the mailing list of this Sub Project <https://lists.camaraproject.org/g/sp-§api_family_abbreviation§>.
-    * A message to the community of this Sub Project can be sent using <sp-§api_family_abbreviation§@lists.camaraproject.org>.
+    <!-- Note: the $api-family-mailinglist$ is not necessery the $repo-name$, if the repository is belonging to an API Family  -->
+    * Subscribe / Unsubscribe to the mailing list of this Sub Project <https://lists.camaraproject.org/g/sp-§api-family-mailinglist§>.
+    * A message to the community of this Sub Project can be sent using <sp-§api-family-mailinglist§@lists.camaraproject.org>.
