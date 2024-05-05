@@ -1,3 +1,3 @@
 | Org                    | Name                                      | GitHub Username        |
 | -----------------------| ------------------------------------------| -----------------------|
-| §company§ | $name§ | $github_username$ |
+| §company§ | §name§ | §github_username§ |
