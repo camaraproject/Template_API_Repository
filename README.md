@@ -28,7 +28,7 @@ Repository to describe, develop, document, and test the §repo_name§ API family
 
 ## Contributing
 * Meetings <!-- for new API families request a meeting link from the LF admin team or replace the information with the existing meeting information (of the API family) -->
-    * [Registration](https://wiki.camaraproject.org/x/TQAG) Update this link with your meeting join link
+    * [Registration / Join](https://wiki.camaraproject.org/x/TQAG) !! Update this link with your meeting registration/join link
     * Schedule: 
     * Minutes: Access [meeting minutes] (update this link to your wiki page using the "Share" link).
 * Mailing List
