@@ -24,7 +24,7 @@ Repository to describe, develop, document, and test the §repo_name§ API within
 
 ## Release Information
 
-The sub project has no (pre)releases yet, work in progress is within the main branch.
+The repository has no (pre)releases yet, work in progress is within the main branch.
 
 ## Contributing
 * Meetings are held virtually <!-- for new API families request a meeting link from the LF admin team or replace the information with the existing meeting information (of the API family) -->
