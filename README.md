@@ -7,31 +7,31 @@
 <a href="https://github.com/camaraproject/§repo_name§/releases/latest" title="Latest Release"><img src="https://img.shields.io/github/release/camaraproject/§repo_name§?style=plastic"></a>
 
 # §repo_name§
-Repository to describe, develop, document, and test the §repo_name§ API family
-<!-- Alternative if an additional API repo of an existing API family: "Repository to describe, develop, document, and test the §repo_name§ API of the $api-familiy$ API group" -->
+Repository to describe, develop, document, and test the §repo_name§ API within the [§Sub Project§](https://wiki.camaraproject.org/display/CAM/Sub+Projects) of CAMARA
+!! Replace the link with the link to the home page of the Sub Project and delete this task
+<!-- Alternative if the first repository of a new API Sub Project and/or it contains multiple APIs
+"Repository to describe, develop, document, and test the APIs of the $Sub Project$ Sub Project" -->
+<!-- Alternative if the repository will be used for a working group - in this case further points, e.g. the scope, of this template need to be adapted
+"Repository for xxx of the $Working Group$ Working Group" -->
 
 ## Scope
-* Service APIs for “§repo_name§” (see APIBacklog.md)
-* It provides the customer with the ability to:  
-  * §API (family) description§.
-  <!-- delete the following line if the scope of the API is defined differently in APIBacklog -->:
-  * NOTE: The scope of this API family should be limited (at least at the first stage) to 4G and 5G.  
+
+* Service API “§repo_name§” (see APIBacklog.md) <!-- Alternative for multiple APIs: "Service APIs for "§repo_name§” -->
+* The API provides the customer with the ability to:  
+  * §Short API scope description§
 * Describe, develop, document, and test the APIs
 * Started: §start date§
 
 ## Release Information
-<!-- Use/uncomment one or multiple the following options -->
-<!-- The sub project has no (pre)releases yet, work in progress is within the main branch -->
-<!-- Pre-releases of this sub project are available in https://github.com/camaraproject/§repo_name§/releases -->
-<!-- The latest public release is available here: https://github.com/camaraproject/§repo_name§/releases/latest -->
-<!-- For changes see [CHANGELOG.md](https://github.com/camaraproject/§repo_name§/blob/main/CHANGELOG.md) -->
+
+The repository has no (pre)releases yet, work in progress is within the main branch.
 
 ## Contributing
-* Meetings <!-- for new API families request a meeting link from the LF admin team or replace the information with the existing meeting information (of the API family) -->
+* Meetings are held virtually <!-- for new API families request a meeting link from the LF admin team or replace the information with the existing meeting information (of the API family) -->
+    * Schedule: !! tbd
     * [Registration / Join](https://wiki.camaraproject.org/x/TQAG) !! Update this link with your meeting registration/join link
-    * Schedule: 
-    * Minutes: Access [meeting minutes] (update this link to your wiki page using the "Share" link).
+    * Minutes: Access [meeting minutes] !! update this link to your wiki page using the "Share" link
 * Mailing List
-    <!-- Note: the $api-family-mailinglist$ is not necessery the $repo-name$, if the repository is belonging to an API Family  -->
-    * Subscribe / Unsubscribe to the mailing list of this Sub Project <https://lists.camaraproject.org/g/sp-§api-family-mailinglist§>.
-    * A message to the community of this Sub Project can be sent using <sp-§api-family-mailinglist§@lists.camaraproject.org>.
+    <!-- Note: the $sub-project-mailinglistname$ is either already existing or will be created by the CAMARA Admin Team  -->
+    * Subscribe / Unsubscribe to the mailing list of this Sub Project <https://lists.camaraproject.org/g/sp-§sub-project-mailinglistname§>.
+    * A message to the community of this Sub Project can be sent using <sp-§sub-project-mailinglistname§@lists.camaraproject.org>.
