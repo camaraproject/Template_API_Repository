@@ -25,6 +25,11 @@ Repository to describe, develop, document, and test the §repo_name§ API within
 ## Release Information
 
 The repository has no (pre)releases yet, work in progress is within the main branch.
+<!-- Optional: an explicit listing of the latest (pre-)release with additional information, e.g. links to the API definitions -->
+<!-- In addition use/uncomment one or multiple the following alternative options when becoming applicable -->
+<!-- Pre-releases of this sub project are available in https://github.com/camaraproject/§repo_name§/releases -->
+<!-- The latest public release is available here: https://github.com/camaraproject/§repo_name§/releases/latest -->
+<!-- For changes see [CHANGELOG.md](https://github.com/camaraproject/§repo_name§/blob/main/CHANGELOG.md) -->
 
 ## Contributing
 * Meetings are held virtually <!-- for new API families request a meeting link from the LF admin team or replace the information with the existing meeting information (of the API family) -->
