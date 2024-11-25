@@ -1,8 +1,8 @@
 ---
-name: ☁ Subproject management 🎂
-about: Indicate an issue with subproject repository or release management
+name: ☁ Repository management 🎂
+about: Indicate an issue with repository or release management
 title: ''
-labels: 'subproject management'
+labels: 'repository management'
 assignees: ''
 
 ---
