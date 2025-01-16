@@ -40,6 +40,8 @@ Incubated API Repository to evolve and maintain the definitions and documentatio
 !! Update with concrete link
 -->
 
+<!-- for Graduation of an API Repository replace "Incubated" with "Graduated" and don't forget to exchange the badge :-) -->
+
 <!-- Alternative if the repository will be used for a working group - in this case further points, e.g. the scope, of this template need to be adapted:
 
 Repository for xxx of the $Working Group$ Working Group"
