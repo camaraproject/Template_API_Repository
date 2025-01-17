@@ -6,7 +6,7 @@ Add one of the following kinds:
 * enhancement/feature
 * cleanup
 * documentation
-* subproject management
+* repository management
 * tests
 
 
