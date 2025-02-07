@@ -53,7 +53,7 @@ Repository for xxx of the $Working Group$ Working Group"
 ## Scope
 
 * Service API(s) “§repo_name§” (see APIBacklog.md) 
-* The API(s) provide(s) the customer with the ability to:  
+* The API(s) provide(s) the API consumer with the ability to:  
   * §Short API scope description§ !! Add here a scope description according to the API proposal
 * Describe, develop, document, and test the API(s)
 * Started: §start date§
