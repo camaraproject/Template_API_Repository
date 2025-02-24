@@ -7,7 +7,7 @@
 <a href="https://github.com/camaraproject/§repo_name§/releases/latest" title="Latest Release"><img src="https://img.shields.io/github/release/camaraproject/§repo_name§?style=plastic"></a>
 !! Choose one of the following alternatives and then delete the task:
 <a href="https://github.com/camaraproject/Governance/blob/main/ProjectStructureAndRoles.md" title="Sandbox API Repository"><img src="https://img.shields.io/badge/Sandbox%20API%20Repository-yellow?style=plastic"></a>
-<a href="https://github.com/camaraproject/Governance/blob/main/ProjectStructureAndRoles.md" title="Incubated API Repository"><img src="https://img.shields.io/badge/Incubated%20API%20Repository-green?style=plastic"></a>
+<a href="https://github.com/camaraproject/Governance/blob/main/ProjectStructureAndRoles.md" title="Incubating API Repository"><img src="https://img.shields.io/badge/Incubating%20API%20Repository-green?style=plastic"></a>
 <a href="https://github.com/camaraproject/Governance/blob/main/ProjectStructureAndRoles.md" title="Graduated API Repository"><img src="https://img.shields.io/badge/Graduated%20API%20Repository-silver?style=plastic"></a>
 <a href="https://github.com/camaraproject/Governance/blob/main/ProjectStructureAndRoles.md" title="Working Group"><img src="https://img.shields.io/badge/Working%20Group-red?style=plastic"></a>
 
@@ -31,16 +31,16 @@ Sandbox API Repository to describe, develop, document, and test the §repo_name�
 !! Update with concrete link
 -->
 
-<!-- Alternative for Incubated API Repositories (always part of Sub Project, potentially created as part of the Incubation): 
+<!-- Alternative for Incubating API Repositories (always part of Sub Project, potentially created as part of the Incubation): 
 
-Incubated API Repository to evolve and maintain the definitions and documentation of §repo_name§ Service API(s) within the Sub Project [$Sub Project Name§](https://wiki.camaraproject.org/display/CAM/Sub+Projects)
+Incubating API Repository to evolve and maintain the definitions and documentation of §repo_name§ Service API(s) within the Sub Project [$Sub Project Name§](https://wiki.camaraproject.org/display/CAM/Sub+Projects)
 
 * API Repository wiki page: https://lf-camaraproject.atlassian.net/wiki/x/AgDe !! Update with concrete link
 * Sub Project home page: https://lf-camaraproject.atlassian.net/wiki/x/AgDe 
 !! Update with concrete link
 -->
 
-<!-- for Graduation of an API Repository replace "Incubated" with "Graduated" and don't forget to exchange the badge :-) -->
+<!-- for Graduation of an API Repository replace "Incubating" with "Graduated" and don't forget to exchange the badge :-) -->
 
 <!-- Alternative if the repository will be used for a working group - in this case further points, e.g. the scope, of this template need to be adapted:
 
@@ -57,7 +57,7 @@ Repository for xxx of the $Working Group$ Working Group"
   * §Short API scope description§ !! Add here a scope description according to the API proposal
 * Describe, develop, document, and test the API(s)
 * Started: §start date§
-<!-- * Incubated since: §incubation date$ --> 
+<!-- * Incubating stage since: §incubation date$ --> 
 
 ## Release Information
 
