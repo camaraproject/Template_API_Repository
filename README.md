@@ -20,24 +20,21 @@
 <!-- Alternative for new, independent Sandbox API Repositories -->
 Sandbox API Repository to describe, develop, document, and test the §repo_name§ Service API(s). The repository does not yet belong to a CAMARA Sub Project.
 
-* API Repository wiki page: https://lf-camaraproject.atlassian.net/wiki/x/AgDe !! Update with concrete link when available and delete the task
+* API Repository [wiki page](https://lf-camaraproject.atlassian.net/wiki/x/AgDe) !! Update with concrete link when available and delete the task
 
 
 <!-- Alternative for Sandbox API Repositories within the context of an existing Sub Project
 Sandbox API Repository to describe, develop, document, and test the §repo_name§ Service API(s) within the Sub Project [$Sub Project Name§](https://lf-camaraproject.atlassian.net/wiki/x/AgDe)
 
-* API Repository wiki page: https://lf-camaraproject.atlassian.net/wiki/x/AgDe !! Update with concrete link
-* Sub Project home page: https://lf-camaraproject.atlassian.net/wiki/x/AgDe 
-!! Update with concrete link
+* API Repository [wiki page](https://lf-camaraproject.atlassian.net/wiki/x/AgDe) !! Update with concrete link when available and delete the task
+
 -->
 
 <!-- Alternative for Incubating API Repositories (always part of Sub Project, potentially created as part of the Incubation): 
 
 Incubating API Repository to evolve and maintain the definitions and documentation of §repo_name§ Service API(s) within the Sub Project [$Sub Project Name§](https://wiki.camaraproject.org/display/CAM/Sub+Projects)
 
-* API Repository wiki page: https://lf-camaraproject.atlassian.net/wiki/x/AgDe !! Update with concrete link
-* Sub Project home page: https://lf-camaraproject.atlassian.net/wiki/x/AgDe 
-!! Update with concrete link
+* API Repository [wiki page](https://lf-camaraproject.atlassian.net/wiki/x/AgDe) !! Update with concrete link when available and delete the task
 -->
 
 <!-- for Graduation of an API Repository replace "Incubating" with "Graduated" and don't forget to exchange the badge :-) -->
@@ -46,7 +43,7 @@ Incubating API Repository to evolve and maintain the definitions and documentati
 
 Repository for xxx of the $Working Group$ Working Group"
 
-* Working Group home page: https://lf-camaraproject.atlassian.net/wiki/x/AgDe 
+* Working Group [wiki home page](https://lf-camaraproject.atlassian.net/wiki/x/AgDe) 
 !! Update with concrete link
 -->
 
