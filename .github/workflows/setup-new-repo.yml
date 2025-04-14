@@ -165,6 +165,7 @@ jobs:
               echo "::error::Team $MAINTAINERS_TEAM does not exist. Cannot assign permissions."
               exit 1
             fi
+            
             if gh api orgs/$OWNER/teams/$CODEOWNERS_TEAM > /dev/null 2>&1; then
               gh api orgs/$OWNER/teams/$CODEOWNERS_TEAM/repos/$OWNER/$REPO_NAME \
                 -X PUT -H "Accept: application/vnd.github+json" -f permission=write || \
@@ -173,6 +174,7 @@ jobs:
               echo "::error::Team $CODEOWNERS_TEAM does not exist. Cannot assign permissions."
               exit 1
             fi
+            
             gh api orgs/$OWNER/teams/admins/repos/$OWNER/$REPO_NAME \
               -X PUT -H "Accept: application/vnd.github+json" -f permission=maintain || \
               echo "::error::Failed to set permissions for admin team. Please check team and repository availability."
