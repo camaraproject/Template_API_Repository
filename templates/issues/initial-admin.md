@@ -5,7 +5,7 @@
 - [ ] Remove the content of /templates and the /.github/workflows/setup-new-repo.yml
 - [ ] Update the README
   - choose the right badge (default: Sandbox)
-  - choose the right variant of text for Independent Sandbox / Sandbox in Sub Project / ...
+  - choose the right variant for Independent Sandboxes / Sandboxes in Sub Project / ...
   - check the wiki links for correctness
 - [ ] Assign the initial issue for CODEWONERS to the appropriate codeowners
 - [ ] Update the Onboarding Tracker within APIBacklog
