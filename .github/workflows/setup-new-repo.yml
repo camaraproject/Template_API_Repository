@@ -169,7 +169,7 @@ jobs:
             if gh api orgs/$OWNER/teams/$CODEOWNERS_TEAM > /dev/null 2>&1; then
                 echo "Assigning permissions to CODEOWNERS_TEAM: [$CODEOWNERS_TEAM]"
                 gh api orgs/$OWNER/teams/$CODEOWNERS_TEAM/repos/$OWNER/$REPO_NAME \
-                  -X PUT -H "Accept: application/vnd.github+json" -f permission=write || \
+                  -X PUT -H "Accept: application/vnd.github+json" -f permission=write --verbose || \
                   echo "::error::Failed to set permissions for $CODEOWNERS_TEAM. Please check team and repository availability."
             else
               echo "::error::Team $CODEOWNERS_TEAM does not exist. Cannot assign permissions."
@@ -197,31 +197,31 @@ jobs:
 
       - name: Sync rulesets from template repository
         run: |
-              TEMPLATE_REPO=$(basename "${{ github.repository }}")
-              echo "Fetching rulesets from $OWNER/$TEMPLATE_REPO"
-          
-              # Fetch rulesets once and store them in a variable
-              RULESETS=$(gh api repos/$OWNER/$TEMPLATE_REPO/rulesets \
-                -H "Accept: application/vnd.github+json" 2>/dev/null || echo "[]")
-              if ! echo "$RULESETS" | jq -e 'type == "array" and length > 0' > /dev/null; then
-                echo "No valid rulesets array found in template repository. Skipping."
-                exit 0
-              fi
-          
-              # Process the fetched rulesets
-              # debug only
-              echo "$RULESETS" | jq -c '.[]' | while read -r ruleset; do
-                NAME=$(echo "$ruleset" | jq -r '.name')
-                echo "Syncing ruleset: $NAME"
-                PAYLOAD=$(echo "$ruleset" | jq '{name, enforcement, conditions, bypass_actors, rules, target, targets}')
-                echo "$PAYLOAD" | jq 
-                echo "$PAYLOAD" > ruleset.json
-                
-                gh api repos/$OWNER/$REPO_NAME/rulesets \
-                  -X POST \
-                  -H "Accept: application/vnd.github+json" --verbose \
-                  --input ruleset.json || echo "Warning: Failed to apply ruleset $NAME"
-              done
+          TEMPLATE_REPO=$(basename "${{ github.repository }}")
+          echo "Fetching rulesets from $OWNER/$TEMPLATE_REPO"
+
+          RULESETS=$(gh api repos/$OWNER/$TEMPLATE_REPO/rulesets \
+            -H "Accept: application/vnd.github+json" 2>/dev/null || echo "[]")
+
+          if ! echo "$RULESETS" | jq -e 'type == "array" and length > 0' > /dev/null; then
+            echo "No valid rulesets array found in template repository. Skipping."
+            exit 0
+          fi
+
+          echo "$RULESETS" | jq -r '.[].id' | while read -r ruleset_id; do
+            RULESET=$(gh api repos/$OWNER/$TEMPLATE_REPO/rulesets/$ruleset_id \
+              -H "Accept: application/vnd.github+json")
+            NAME=$(echo "$RULESET" | jq -r '.name')
+            echo "Syncing full ruleset: $NAME"
+
+            PAYLOAD=$(echo "$RULESET" | jq 'del(.id, .repository_id, .creator, .created_at, .updated_at)')
+            echo "$PAYLOAD" > ruleset.json
+
+            gh api repos/$OWNER/$REPO_NAME/rulesets \
+              -X POST \
+              -H "Accept: application/vnd.github+json" \
+              --input ruleset.json || echo "Warning: Failed to apply ruleset $NAME"
+          done
 
       - name: Create initial issues
         run: |
