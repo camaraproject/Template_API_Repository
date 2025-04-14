@@ -43,32 +43,14 @@ jobs:
           echo "GH_TOKEN=${{ secrets.GH_REPO_CREATE_TOKEN }}" >> $GITHUB_ENV
           echo "Token GH_REPO_CREATE_TOKEN ready for use in GitHub CLI"
 
-      - name: Create new repository and set variables
-        run: |
-          REPO_NAME=${{ github.event.inputs.repo_name }}
-          OWNER=$(echo '${{ github.repository }}' | cut -d'/' -f1)
-
-          echo "Checking if repository $OWNER/$REPO_NAME already exists..."
-          if gh api repos/$OWNER/$REPO_NAME > /dev/null 2>&1; then
-            echo "::error::Repository $OWNER/$REPO_NAME already exists. Exiting."
-            exit 1
-          fi
-
-          echo "Creating new repository: https://github.com/$OWNER/$REPO_NAME"
-          gh repo create "$OWNER/$REPO_NAME" --public --template "$OWNER/$(basename '${{ github.repository }}')" --confirm
-
-          echo "REPO_NAME=$REPO_NAME" >> $GITHUB_ENV
-          echo "OWNER=$OWNER" >> $GITHUB_ENV
-          echo "MAINTAINERS_TEAM=${REPO_NAME}_maintainers" >> $GITHUB_ENV
-          echo "CODEOWNERS_TEAM=${REPO_NAME}_codeowners" >> $GITHUB_ENV
-          echo "CODEOWNERS_LIST=${{ github.event.inputs.initial_codeowners }}" >> $GITHUB_ENV
-
       - name: Create teams
         run: |
           if gh api orgs/$OWNER/teams > /dev/null 2>&1; then
             if ! gh api orgs/$OWNER/teams/$MAINTAINERS_TEAM > /dev/null 2>&1; then
               MAINTAINERS_PARENT_ID=$(gh api orgs/$OWNER/teams/maintainers | jq -r '.id')
+              echo "Debug: MAINTAINERS_PARENT_ID=$MAINTAINERS_PARENT_ID "
               MAINTAINERS_PARENT_ID_NUM=$(echo "$MAINTAINERS_PARENT_ID" | grep -o '[0-9]*')
+              echo "Debug: MAINTAINERS_PARENT_ID_NUM=$MAINTAINERS_PARENT_ID_NUM "
               if [ -z "$MAINTAINERS_PARENT_ID_NUM" ]; then
                 echo "::error::Invalid team ID format for maintainers. Expected numeric ID."
                 exit 1
@@ -104,6 +86,26 @@ jobs:
           else
             echo "Skipping team creation — not running in an organization."
           fi
+
+      - name: Create new repository and set variables
+        run: |
+          REPO_NAME=${{ github.event.inputs.repo_name }}
+          OWNER=$(echo '${{ github.repository }}' | cut -d'/' -f1)
+
+          echo "Checking if repository $OWNER/$REPO_NAME already exists..."
+          if gh api repos/$OWNER/$REPO_NAME > /dev/null 2>&1; then
+            echo "::error::Repository $OWNER/$REPO_NAME already exists. Exiting."
+            exit 1
+          fi
+
+          echo "Creating new repository: https://github.com/$OWNER/$REPO_NAME"
+          gh repo create "$OWNER/$REPO_NAME" --public --template "$OWNER/$(basename '${{ github.repository }}')" --confirm
+
+          echo "REPO_NAME=$REPO_NAME" >> $GITHUB_ENV
+          echo "OWNER=$OWNER" >> $GITHUB_ENV
+          echo "MAINTAINERS_TEAM=${REPO_NAME}_maintainers" >> $GITHUB_ENV
+          echo "CODEOWNERS_TEAM=${REPO_NAME}_codeowners" >> $GITHUB_ENV
+          echo "CODEOWNERS_LIST=${{ github.event.inputs.initial_codeowners }}" >> $GITHUB_ENV
 
       - name: Configure repository settings
         run: |
