@@ -54,8 +54,8 @@ jobs:
             exit 1
           fi
 
-          ## echo "Creating new repository: https://github.com/$OWNER/$REPO_NAME"
-          ## gh repo create "$OWNER/$REPO_NAME" --public --template "$OWNER/$(basename '${{ github.repository }}')" --confirm
+          echo "Creating new repository: https://github.com/$OWNER/$REPO_NAME"
+          gh repo create "$OWNER/$REPO_NAME" --public --template "$OWNER/$(basename '${{ github.repository }}')" --confirm
 
           echo "REPO_NAME=$REPO_NAME" >> $GITHUB_ENV
           echo "OWNER=$OWNER" >> $GITHUB_ENV
@@ -68,14 +68,13 @@ jobs:
           if gh api orgs/$OWNER/teams > /dev/null 2>&1; then
             if ! gh api orgs/$OWNER/teams/$MAINTAINERS_TEAM > /dev/null 2>&1; then
               MAINTAINERS_PARENT_ID=$(gh api orgs/$OWNER/teams/maintainers | jq -r '.id')
-              echo "Debug: MAINTAINERS_PARENT_ID=$MAINTAINERS_PARENT_ID "
               MAINTAINERS_PARENT_ID_NUM=$(echo "$MAINTAINERS_PARENT_ID" | grep -o '[0-9]*')
-              echo "Debug: MAINTAINERS_PARENT_ID_NUM=$MAINTAINERS_PARENT_ID_NUM "
+              echo "Debug: MAINTAINERS_PARENT_ID_NUM=$MAINTAINERS_PARENT_ID_NUM"
               if [ -z "$MAINTAINERS_PARENT_ID_NUM" ]; then
                 echo "::error::Invalid team ID format for maintainers. Expected numeric ID."
                 exit 1
               fi
-              echo "{\"name\": \"$MAINTAINERS_TEAM\", \"parent_team_id\": $MAINTAINERS_PARENT_ID_NUM}" > maintainer_payload.json
+              echo "{\"name\": \"$MAINTAINERS_TEAM\", \"description\": \"Maintainers for $REPO_NAME\ repository", \"parent_team_id\": $MAINTAINERS_PARENT_ID_NUM}" > maintainer_payload.json
               gh api orgs/$OWNER/teams \
                 -X POST \
                 -H "Accept: application/vnd.github+json" \
@@ -87,11 +86,12 @@ jobs:
             if ! gh api orgs/$OWNER/teams/$CODEOWNERS_TEAM > /dev/null 2>&1; then
               CODEOWNERS_PARENT_ID=$(gh api orgs/$OWNER/teams/codeowners | jq -r '.id')
               CODEOWNERS_PARENT_ID_NUM=$(echo "$CODEOWNERS_PARENT_ID" | grep -o '[0-9]*')
+              echo "Debug: CODEOWNERS_PARENT_ID_NUM=$CODEOWNERS_PARENT_ID_NUM"
               if [ -z "$CODEOWNERS_PARENT_ID_NUM" ]; then
                 echo "::error::Invalid team ID format for codeowners. Expected numeric ID."
                 exit 1
               fi
-              echo "{\"name\": \"$CODEOWNERS_TEAM\", \"parent_team_id\": $CODEOWNERS_PARENT_ID_NUM}" > codeowners_payload.json
+              echo "{\"name\": \"$CODEOWNERS_TEAM\", \"description\": \"Codeowners for $REPO_NAME\ repository", \"parent_team_id\": $CODEOWNERS_PARENT_ID_NUM}" > codeowners_payload.json
               gh api orgs/$OWNER/teams \
                 -X POST \
                 -H "Accept: application/vnd.github+json" \
