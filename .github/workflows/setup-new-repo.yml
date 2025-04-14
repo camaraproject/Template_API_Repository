@@ -157,9 +157,25 @@ jobs:
       - name: Set team permissions
         run: |
           if gh api orgs/$OWNER/teams > /dev/null 2>&1; then
-            gh api orgs/$OWNER/teams/$MAINTAINERS_TEAM/repos/$OWNER/$REPO_NAME -X PUT -f permission=triage
-            gh api orgs/$OWNER/teams/$CODEOWNERS_TEAM/repos/$OWNER/$REPO_NAME -X PUT -f permission=write
-            gh api orgs/$OWNER/teams/admins/repos/$OWNER/$REPO_NAME -X PUT -f permission=maintain
+            if gh api orgs/$OWNER/teams/$MAINTAINERS_TEAM > /dev/null 2>&1; then
+              gh api orgs/$OWNER/teams/$MAINTAINERS_TEAM/repos/$OWNER/$REPO_NAME \
+                -X PUT -H "Accept: application/vnd.github+json" -f permission=triage || \
+                echo "::error::Failed to set permissions for $MAINTAINERS_TEAM. Please check team and repository availability."
+            else
+              echo "::error::Team $MAINTAINERS_TEAM does not exist. Cannot assign permissions."
+              exit 1
+            fi
+            if gh api orgs/$OWNER/teams/$CODEOWNERS_TEAM > /dev/null 2>&1; then
+              gh api orgs/$OWNER/teams/$CODEOWNERS_TEAM/repos/$OWNER/$REPO_NAME \
+                -X PUT -H "Accept: application/vnd.github+json" -f permission=write || \
+                echo "::error::Failed to set permissions for $CODEOWNERS_TEAM. Please check team and repository availability."
+            else
+              echo "::error::Team $CODEOWNERS_TEAM does not exist. Cannot assign permissions."
+              exit 1
+            fi
+            gh api orgs/$OWNER/teams/admins/repos/$OWNER/$REPO_NAME \
+              -X PUT -H "Accept: application/vnd.github+json" -f permission=maintain || \
+              echo "::error::Failed to set permissions for admin team. Please check team and repository availability."
           else
             echo "Skipping team permission assignment — not running in an organization."
           fi
