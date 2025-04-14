@@ -68,7 +68,7 @@ jobs:
           if gh api orgs/$OWNER/teams > /dev/null 2>&1; then
             if ! gh api orgs/$OWNER/teams/$MAINTAINERS_TEAM > /dev/null 2>&1; then
               MAINTAINERS_PARENT_ID=$(gh api orgs/$OWNER/teams/maintainers | jq -r '.id')
-              MAINTAINERS_PARENT_ID_NUM=$(printf '%d' "$MAINTAINERS_PARENT_ID" 2>/dev/null || echo "")
+              MAINTAINERS_PARENT_ID_NUM=$(echo "$MAINTAINERS_PARENT_ID" | grep -o '[0-9]*')
               if [ -z "$MAINTAINERS_PARENT_ID_NUM" ]; then
                 echo "::error::Invalid team ID format for maintainers. Expected numeric ID."
                 exit 1
@@ -80,7 +80,7 @@ jobs:
 
             if ! gh api orgs/$OWNER/teams/$CODEOWNERS_TEAM > /dev/null 2>&1; then
               CODEOWNERS_PARENT_ID=$(gh api orgs/$OWNER/teams/codeowners | jq -r '.id')
-              CODEOWNERS_PARENT_ID_NUM=$(printf '%d' "$CODEOWNERS_PARENT_ID" 2>/dev/null || echo "")
+              CODEOWNERS_PARENT_ID_NUM=$(echo "$CODEOWNERS_PARENT_ID" | grep -o '[0-9]*')
               if [ -z "$CODEOWNERS_PARENT_ID_NUM" ]; then
                 echo "::error::Invalid team ID format for codeowners. Expected numeric ID."
                 exit 1
