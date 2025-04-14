@@ -75,7 +75,11 @@ jobs:
                 echo "::error::Invalid team ID format for maintainers. Expected numeric ID."
                 exit 1
               fi
-              gh api orgs/$OWNER/teams -f name="$MAINTAINERS_TEAM" -f parent_team_id=$MAINTAINERS_PARENT_ID_NUM
+              echo "{\"name\": \"$MAINTAINERS_TEAM\", \"parent_team_id\": $MAINTAINERS_PARENT_ID_NUM}" > maintainer_payload.json
+              gh api orgs/$OWNER/teams \
+                -X POST \
+                -H "Accept: application/vnd.github+json" \
+                --input maintainer_payload.json
             else
               echo "Team $MAINTAINERS_TEAM already exists. Skipping creation."
             fi
@@ -87,7 +91,11 @@ jobs:
                 echo "::error::Invalid team ID format for codeowners. Expected numeric ID."
                 exit 1
               fi
-              gh api orgs/$OWNER/teams -f name="$CODEOWNERS_TEAM" -f parent_team_id=$CODEOWNERS_PARENT_ID_NUM
+              echo "{\"name\": \"$CODEOWNERS_TEAM\", \"parent_team_id\": $CODEOWNERS_PARENT_ID_NUM}" > codeowners_payload.json
+              gh api orgs/$OWNER/teams \
+                -X POST \
+                -H "Accept: application/vnd.github+json" \
+                --input codeowners_payload.json
             else
               echo "Team $CODEOWNERS_TEAM already exists. Skipping creation."
             fi
