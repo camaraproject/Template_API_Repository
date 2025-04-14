@@ -167,9 +167,12 @@ jobs:
             fi
             
             if gh api orgs/$OWNER/teams/$CODEOWNERS_TEAM > /dev/null 2>&1; then
-              gh api orgs/$OWNER/teams/$CODEOWNERS_TEAM/repos/$OWNER/$REPO_NAME \
-                -X PUT -H "Accept: application/vnd.github+json" -f permission=write || \
-                echo "::error::Failed to set permissions for $CODEOWNERS_TEAM. Please check team and repository availability."
+                echo "Assigning permissions to CODEOWNERS_TEAM: [$CODEOWNERS_TEAM]"
+                gh api orgs/$OWNER/teams/$CODEOWNERS_TEAM | jq || echo "::warning::Failed to retrieve CODEOWNERS_TEAM info"
+                gh api orgs/$OWNER/teams | jq '.[] | select(.name | test("codeowners")) | {name, slug}' || echo "::warning::Could not locate CODEOWNERS_TEAM in list"
+                gh api orgs/$OWNER/teams/$CODEOWNERS_TEAM/repos/$OWNER/$REPO_NAME \
+                  -X PUT -H "Accept: application/vnd.github+json" -f permission=write || \
+                  echo "::error::Failed to set permissions for $CODEOWNERS_TEAM. Please check team and repository availability."
             else
               echo "::error::Team $CODEOWNERS_TEAM does not exist. Cannot assign permissions."
               exit 1
