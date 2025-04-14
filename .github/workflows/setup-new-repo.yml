@@ -68,14 +68,24 @@ jobs:
           if gh api orgs/$OWNER/teams > /dev/null 2>&1; then
             if ! gh api orgs/$OWNER/teams/$MAINTAINERS_TEAM > /dev/null 2>&1; then
               MAINTAINERS_PARENT_ID=$(gh api orgs/$OWNER/teams/maintainers | jq -r '.id')
-              gh api orgs/$OWNER/teams -f name="$MAINTAINERS_TEAM" -f parent_team_id="$MAINTAINERS_PARENT_ID"
+              MAINTAINERS_PARENT_ID_NUM=$(printf '%d' "$MAINTAINERS_PARENT_ID" 2>/dev/null || echo "")
+              if [ -z "$MAINTAINERS_PARENT_ID_NUM" ]; then
+                echo "::error::Invalid team ID format for maintainers. Expected numeric ID."
+                exit 1
+              fi
+              gh api orgs/$OWNER/teams -f name="$MAINTAINERS_TEAM" -f parent_team_id=$MAINTAINERS_PARENT_ID_NUM
             else
               echo "Team $MAINTAINERS_TEAM already exists. Skipping creation."
             fi
 
             if ! gh api orgs/$OWNER/teams/$CODEOWNERS_TEAM > /dev/null 2>&1; then
               CODEOWNERS_PARENT_ID=$(gh api orgs/$OWNER/teams/codeowners | jq -r '.id')
-              gh api orgs/$OWNER/teams -f name="$CODEOWNERS_TEAM" -f parent_team_id="$CODEOWNERS_PARENT_ID"
+              CODEOWNERS_PARENT_ID_NUM=$(printf '%d' "$CODEOWNERS_PARENT_ID" 2>/dev/null || echo "")
+              if [ -z "$CODEOWNERS_PARENT_ID_NUM" ]; then
+                echo "::error::Invalid team ID format for codeowners. Expected numeric ID."
+                exit 1
+              fi
+              gh api orgs/$OWNER/teams -f name="$CODEOWNERS_TEAM" -f parent_team_id=$CODEOWNERS_PARENT_ID_NUM
             else
               echo "Team $CODEOWNERS_TEAM already exists. Skipping creation."
             fi
