@@ -215,7 +215,7 @@ jobs:
               echo "$RULESETS" | jq -c '.[]' | while read -r ruleset; do
                 NAME=$(echo "$ruleset" | jq -r '.name')
                 echo "Syncing ruleset: $NAME"
-                PAYLOAD=$(echo "$ruleset" | jq '{name, enforcement, conditions, bypass_actors, rules, target, targets}')# debug only
+                PAYLOAD=$(echo "$ruleset" | jq '{name, enforcement, conditions, bypass_actors, rules, target, targets}')
                 echo "$PAYLOAD" | jq 
                 echo "$PAYLOAD" > ruleset.json
                 
