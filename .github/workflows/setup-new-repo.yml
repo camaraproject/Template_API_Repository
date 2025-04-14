@@ -209,16 +209,13 @@ jobs:
           
               # Process the fetched rulesets
               # debug only
-              echo echo "$ruleset" | jq 
               echo "$RULESETS" | jq -c '.[]' | while read -r ruleset; do
                 NAME=$(echo "$ruleset" | jq -r '.name')
                 echo "Syncing ruleset: $NAME"
-                PAYLOAD=$(echo "$ruleset" | jq 'del(.id, .repository_id, .creator, .created_at, .updated_at)')
-                # debug only
+                PAYLOAD=$(echo "$ruleset" | jq '{name, enforcement, conditions, bypass_actors, rules, target, targets}')# debug only
                 echo "$PAYLOAD" | jq 
                 echo "$PAYLOAD" > ruleset.json
                 
-          
                 gh api repos/$OWNER/$REPO_NAME/rulesets \
                   -X POST \
                   -H "Accept: application/vnd.github+json" --verbose \
