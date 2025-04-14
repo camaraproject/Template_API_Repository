@@ -67,13 +67,15 @@ jobs:
         run: |
           if gh api orgs/$OWNER/teams > /dev/null 2>&1; then
             if ! gh api orgs/$OWNER/teams/$MAINTAINERS_TEAM > /dev/null 2>&1; then
-              gh api orgs/$OWNER/teams -f name="$MAINTAINERS_TEAM" -f parent_team_id="maintainers"
+              MAINTAINERS_PARENT_ID=$(gh api orgs/$OWNER/teams/maintainers | jq -r '.id')
+              gh api orgs/$OWNER/teams -f name="$MAINTAINERS_TEAM" -f parent_team_id="$MAINTAINERS_PARENT_ID"
             else
               echo "Team $MAINTAINERS_TEAM already exists. Skipping creation."
             fi
 
             if ! gh api orgs/$OWNER/teams/$CODEOWNERS_TEAM > /dev/null 2>&1; then
-              gh api orgs/$OWNER/teams -f name="$CODEOWNERS_TEAM" -f parent_team_id="codeowners"
+              CODEOWNERS_PARENT_ID=$(gh api orgs/$OWNER/teams/codeowners | jq -r '.id')
+              gh api orgs/$OWNER/teams -f name="$CODEOWNERS_TEAM" -f parent_team_id="$CODEOWNERS_PARENT_ID"
             else
               echo "Team $CODEOWNERS_TEAM already exists. Skipping creation."
             fi
