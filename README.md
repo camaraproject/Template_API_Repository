@@ -13,11 +13,13 @@
 
 # {{repo_name}}
 
-> !IMPORTANT
+> [!NOTE]
 > What is this repository about and how to use it:
 >
 > * For codeowners of existing CAMARA repository as a sample how a CAMARA repository should look like, e.g. to update legacy repositories. Have a look specifically on the [code of the README.md](https://github.com/camaraproject/Template_API_Repository/blob/main/README.md?plain=1) for different variants and copy relevant parts into your repository.
 > * For CAMARA admins to create new (Sandbox) API repositories automated: Use the `setup-new-repo` workflow together with documentation in [templates/README.md](templates/README.md).
+>
+> The following is the template README for a new independent Sandbox API repository, other variants are within the commented code.
 
 <!-- Alternative for new, independent Sandbox API Repositories -->
 Sandbox API Repository to describe, develop, document, and test the {{repo_name}} Service API(s). The repository does not yet belong to a CAMARA Sub Project.
