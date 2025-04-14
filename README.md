@@ -5,7 +5,7 @@
 <a href="https://github.com/camaraproject/{{repo_name}}" title="Repo Size"><img src="https://img.shields.io/github/repo-size/camaraproject/{{repo_name}}?style=plastic"></a>
 <a href="https://github.com/camaraproject/{{repo_name}}/blob/main/LICENSE" title="License"><img src="https://img.shields.io/badge/License-Apache%202.0-green.svg?style=plastic"></a>
 <a href="https://github.com/camaraproject/{{repo_name}}/releases/latest" title="Latest Release"><img src="https://img.shields.io/github/release/camaraproject/{{repo_name}}?style=plastic"></a>
-!! Choose one of the following alternatives and then delete the task:
+<!-- Choose one of the following alternatives and then delete the task -->
 <a href="https://github.com/camaraproject/Governance/blob/main/ProjectStructureAndRoles.md" title="Sandbox API Repository"><img src="https://img.shields.io/badge/Sandbox%20API%20Repository-yellow?style=plastic"></a>
 <a href="https://github.com/camaraproject/Governance/blob/main/ProjectStructureAndRoles.md" title="Incubating API Repository"><img src="https://img.shields.io/badge/Incubating%20API%20Repository-green?style=plastic"></a>
 <a href="https://github.com/camaraproject/Governance/blob/main/ProjectStructureAndRoles.md" title="Graduated API Repository"><img src="https://img.shields.io/badge/Graduated%20API%20Repository-silver?style=plastic"></a>
@@ -13,25 +13,31 @@
 
 # {{repo_name}}
 
-!! Uncomment if needed one of the alternatives and replace the links with the concrete links into the CAMARA wiki - then delete the task:
+> !IMPORTANT
+> What is this repository about and how to use it:
+>
+> * For codeowners of existing CAMARA repository as a sample how a CAMARA repository should look like, e.g. to update legacy repositories. Have a look specifically on the [code of the README.md](https://github.com/camaraproject/Template_API_Repository/blob/main/README.md?plain=1) for different variants and copy relevant parts into your repository.
+> * For CAMARA admins to create new (Sandbox) API repositories automated: Use the `setup-new-repo` workflow together with documentation in [templates/README.md](templates/README.md).
 
 <!-- Alternative for new, independent Sandbox API Repositories -->
 Sandbox API Repository to describe, develop, document, and test the {{repo_name}} Service API(s). The repository does not yet belong to a CAMARA Sub Project.
 
 * API Repository [wiki page]({{repo_wiki_page}})
 
-<!-- Alternative for Sandbox API Repositories within the context of an existing Sub Project
+<!-- Alternative for Sandbox API Repositories within the context of an existing Sub Project -->
+
+<!--
 Sandbox API Repository to describe, develop, document, and test the {{repo_name}} Service API(s) within the Sub Project [{{subproject_name}}]({{subproject_wiki_page}})
 
-* API Repository [wiki page]({{repo_wiki_page}}) !! Update with concrete link when available and delete the task
-
+* API Repository [wiki page]({{repo_wiki_page}})
 -->
 
-<!-- Alternative for Incubating API Repositories (always part of Sub Project, potentially created as part of the Incubation): 
+<!-- Alternative for Incubating API Repositories (always part of Sub Project, potentially created as part of the Incubation) --> 
 
+<!--
 Incubating API Repository to evolve and maintain the definitions and documentation of {{repo_name}} Service API(s) within the Sub Project [{{subproject_name}}]({{subproject_wiki_page}})
 
-* API Repository [wiki page]({{repo_wiki_page}}) !! Update with concrete link when available and delete the task
+* API Repository [wiki page]({{repo_wiki_page}})
 -->
 
 <!-- for Graduation of an API Repository replace "Incubating" with "Graduated" and don't forget to exchange the badge :-) -->
@@ -51,7 +57,7 @@ Repository for xxx of the {{subproject_name}} Working Group"
   * §Short API scope description§ !! Add here a scope description according to the API proposal
 * Describe, develop, document, and test the API(s)
 * Started: §start date§
-<!-- * Incubating stage since: §incubation date$ --> 
+<!-- * Incubating stage since: {{incubation date}} --> 
 
 ## Release Information
 
