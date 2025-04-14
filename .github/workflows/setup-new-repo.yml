@@ -206,26 +206,31 @@ jobs:
               fi
           
               # Process the fetched rulesets
+              # debug only
+              echo echo "$ruleset" | jq 
               echo "$RULESETS" | jq -c '.[]' | while read -r ruleset; do
                 NAME=$(echo "$ruleset" | jq -r '.name')
                 echo "Syncing ruleset: $NAME"
                 PAYLOAD=$(echo "$ruleset" | jq 'del(.id, .repository_id, .creator, .created_at, .updated_at)')
+                # debug only
+                echo "$PAYLOAD" | jq 
                 echo "$PAYLOAD" > ruleset.json
+                
           
                 gh api repos/$OWNER/$REPO_NAME/rulesets \
                   -X POST \
-                  -H "Accept: application/vnd.github+json" \
+                  -H "Accept: application/vnd.github+json" --verbose \
                   --input ruleset.json || echo "Warning: Failed to apply ruleset $NAME"
               done
 
       - name: Create initial issues
         run: |
           ADMIN_ISSUE_URL=$(gh issue create --repo $OWNER/$REPO_NAME \
-            --title "Initial administrative tasks" \
+            --title "New Repository - Initial administrative tasks" \
             --body "$(cat templates/issues/initial-admin.md)")
 
           gh issue create --repo $OWNER/$REPO_NAME \
-            --title "Initial tasks for codeowners" \
+            --title "New Repository - Initial tasks for codeowners" \
             --body "$(cat templates/issues/initial-codeowners.md)"
 
           gh issue comment "$ADMIN_ISSUE_URL" \
