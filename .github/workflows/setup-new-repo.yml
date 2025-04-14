@@ -169,7 +169,7 @@ jobs:
             if gh api orgs/$OWNER/teams/$CODEOWNERS_TEAM > /dev/null 2>&1; then
                 echo "Assigning permissions to CODEOWNERS_TEAM: [$CODEOWNERS_TEAM]"
                 gh api orgs/$OWNER/teams/$CODEOWNERS_TEAM/repos/$OWNER/$REPO_NAME \
-                  -X PUT -H "Accept: application/vnd.github+json" -f permission=write --verbose || \
+                  -X PUT -H "Accept: application/vnd.github+json" -f permission=push || \
                   echo "::error::Failed to set permissions for $CODEOWNERS_TEAM. Please check team and repository availability."
             else
               echo "::error::Team $CODEOWNERS_TEAM does not exist. Cannot assign permissions."
