@@ -9,7 +9,7 @@
 <a href="https://github.com/camaraproject/Governance/blob/main/ProjectStructureAndRoles.md" title="Incubating API Repository"><img src="https://img.shields.io/badge/Incubating%20API%20Repository-green?style=plastic"></a>
 <a href="https://github.com/camaraproject/Governance/blob/main/ProjectStructureAndRoles.md" title="Graduated API Repository"><img src="https://img.shields.io/badge/Graduated%20API%20Repository-silver?style=plastic"></a>
 <a href="https://github.com/camaraproject/Governance/blob/main/ProjectStructureAndRoles.md" title="Working Group"><img src="https://img.shields.io/badge/Working%20Group-red?style=plastic"></a>
-<!-- Choose one of the above four alternative badges and then delete this task -->
+<!-- Choose one of the above four alternative badges and then delete the remaining ones including this task -->
 
 # {{repo_name}}
 
@@ -34,7 +34,7 @@ Sandbox API Repository to describe, develop, document, and test the {{repo_name}
 ---
 <!-- Alternative for Sandbox API Repositories within the context of an existing Sub Project. Choose the "Sandbox" badge above -->
 
-Sandbox API Repository to describe, develop, document, and test the {{repo_name}} Service API(s) within the Sub Project [{{subproject_name}}]({{subproject_wiki_page}})
+Sandbox API Repository to describe, develop, document, and test the {{repo_name}} Service API(s) within the Sub Project [{{subproject_name}}]({{subproject_wiki_page}}).
 
 * API Repository [wiki page]({{repo_wiki_page}})
 
