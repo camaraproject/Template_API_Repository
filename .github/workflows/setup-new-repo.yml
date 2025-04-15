@@ -52,10 +52,11 @@ jobs:
       - name: Checkout template repository
         uses: actions/checkout@v4
 
-      - name: Set up GitHub CLI token with personal access token
+      - name: Set up GitHub CLI token with personal fine grained access token
         run: |
+          # Use GH_REPO_CREATE_TOKEN as the authentication token for all GitHub CLI commands
           echo "GH_TOKEN=${{ secrets.GH_REPO_CREATE_TOKEN }}" >> $GITHUB_ENV
-          if [ -z "${{ secrets.GH_REPO_CREATE_TOKEN }}" ]; then
+          if [ -z "$GH_TOKEN" ]; then
             echo "::error::GH_REPO_CREATE_TOKEN is not set. Please configure the secret in the 'repo-setup' environment."
             exit 1
           fi
@@ -67,7 +68,7 @@ jobs:
           OWNER=$(echo '${{ github.repository }}' | cut -d'/' -f1)
 
           echo "Creating new repository: https://github.com/$OWNER/$REPO_NAME"
-          # Using 'true' instead of deprecated '--confirm' to skip interactive prompt
+          # Creates a new public repository using the current repository as a template
           gh repo create "$OWNER/$REPO_NAME" --public --template "$OWNER/$(basename '${{ github.repository }}')"
 
           # Wait until the repository is fully accessible
@@ -130,6 +131,10 @@ jobs:
             fi
 
             CODEOWNERS_LIST=$(echo "$CODEOWNERS_LIST" | xargs)
+            # Loop through each provided GitHub username and invite them to the codeowners team
+            # Note: users who are not yet members of the organization will be invited to join
+            # and will need to accept the invitation before they are part of the team and the CODEOWNERS file get fully valid
+            echo "Inviting users to team $CODEOWNERS_TEAM: [$CODEOWNERS_LIST]"
             for username in $CODEOWNERS_LIST; do
               clean_user=$(echo "$username" | sed 's/^@//')
               echo "Checking if @$clean_user is a valid GitHub user..."
@@ -157,7 +162,8 @@ jobs:
 
       - name: Update README.md placeholders
         run: |
-          # changes the README.md from template repository and updates the README.md in the new repository with it 
+          # Replace placeholders in the template README.md and push the updated version to the new repository
+          # Note: the README.md file is expected to be in the root of the repository
           sed -i "s/{{repo_name}}/$REPO_NAME/g" README.md
           sed -i "s|{{repo_wiki_page}}|${{ github.event.inputs.repo_wiki_page }}|g" README.md
           sed -i "s|{{subproject_name}}|${{ github.event.inputs.subproject_name }}|g" README.md
@@ -215,6 +221,9 @@ jobs:
 
       - name: Update CODEOWNERS file
         run: |
+          # Replace placeholder in CODEOWNERS template with actual list of codeowners
+          # Note: also users who are skipped during team invitation will be added to the CODEOWNERS file and
+          # might need to be corrected manually later and invited manually to the CODEOWNERS team
           sed "s|{{initial_codeowners}}|$CODEOWNERS_LIST|g" templates/CODEOWNERS_TEMPLATE > CODEOWNERS
           CODEOWNERS_SHA=$(gh api repos/$OWNER/$REPO_NAME/contents/CODEOWNERS | jq -r '.sha')
 
@@ -274,7 +283,7 @@ jobs:
             "templates/CODEOWNERS"
             "templates/issues/initial-admin.md"
             "templates/issues/initial-codeowners.md"
-            "templates/CODEOWNERS"
+            "templates/README.md"
           )
 
           for file in "${FILES_TO_DELETE[@]}"; do
