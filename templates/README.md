@@ -45,10 +45,10 @@ Before running the workflow, ensure the following are set up:
 
    #### 🔧 How to Create a Fine-Grained Token:
 
-   1. Go to [GitHub Developer Settings – Tokens](https://github.com/settings/tokens)
+   1. Go to [GitHub Developer Settings – Fine-grained personal access tokens](https://github.com/settings/personal-access-tokens)
    2. Click **"Generate new token (fine-grained)"**
-   3. Set **Resource owner** to your GitHub username or organization
-   4. Choose **repositories to access**: The template repo + all new target repos you’ll manage
+   3. Set **Resource owner** to your GitHub username (for testing) or organization (camaraproject)
+   4. Choose **repositories to access**: all repositories (otherwise newly created repositories are not covered)
    5. Under **Repository permissions**, set:
       - Contents → Read and write
       - Issues → Read and write
