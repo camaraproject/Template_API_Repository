@@ -41,7 +41,16 @@ jobs:
       - name: Set up GitHub CLI token with personal access token
         run: |
           echo "GH_TOKEN=${{ secrets.GH_REPO_CREATE_TOKEN }}" >> $GITHUB_ENV
-          echo "Token GH_REPO_CREATE_TOKEN ready for use in GitHub CLI"
+          if [ -z "${{ secrets.GH_REPO_CREATE_TOKEN }}" ]; then
+            echo "::error::GH_REPO_CREATE_TOKEN is not set. Please configure the secret in the 'repo-setup' environment."
+            exit 1
+          fi
+          echo "Validating GH token with gh auth status..."
+          gh auth status || {
+            echo "::error::GitHub CLI authentication failed."
+            exit 1
+          }
+          fi
 
       - name: Create new repository and set variables
         run: |
@@ -236,7 +245,7 @@ jobs:
           gh issue comment "$ADMIN_ISSUE_URL" \
             --body "✅ Repository setup has been completed by automation. You may now proceed with the checklist."
 
-      - name: Cleanup setup artifacts
+      - name: Cleanup setup artifacts from template repository
         run: |
           if gh api repos/$OWNER/$REPO_NAME/contents/.github/workflows/setup-new-repo.yml > /dev/null 2>&1; then
             SHA=$(gh api repos/$OWNER/$REPO_NAME/contents/.github/workflows/setup-new-repo.yml | jq -r '.sha')
