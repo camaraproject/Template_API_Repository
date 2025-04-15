@@ -276,8 +276,6 @@ jobs:
               -F sha="$SHA"
           else
             echo "::notice::Workflow file not found in $REPO_NAME — skipping deletion."
-          else
-            echo "No setup workflow found in new repo. Skipping deletion."
           fi
 
           if gh api repos/$OWNER/$REPO_NAME/contents/templates > /dev/null 2>&1; then
