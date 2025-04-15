@@ -56,7 +56,7 @@ jobs:
         run: |
           # Use GH_REPO_CREATE_TOKEN as the authentication token for all GitHub CLI commands
           echo "GH_TOKEN=${{ secrets.GH_REPO_CREATE_TOKEN }}" >> $GITHUB_ENV
-          if [ -z "$GH_TOKEN" ]; then
+          if [ -z "${{ secrets.GH_REPO_CREATE_TOKEN }}" ]; then
             echo "::error::GH_REPO_CREATE_TOKEN is not set. Please configure the secret in the 'repo-setup' environment."
             exit 1
           fi
