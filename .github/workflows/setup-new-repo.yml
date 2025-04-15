@@ -145,7 +145,7 @@ jobs:
       - name: Configure repository settings
         run: |
           gh repo edit $OWNER/$REPO_NAME \
-            --description "$REPO_NAME" \
+            --description "Sandbox API Repository for $REPO_NAME API(s)" \
             --homepage "${{ github.event.inputs.repo_wiki_page }}" \
             --add-topic sandbox-api-repository
           gh api -X PATCH repos/$OWNER/$REPO_NAME \
