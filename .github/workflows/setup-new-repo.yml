@@ -268,40 +268,22 @@ jobs:
 
       - name: Cleanup setup artifacts from template repository
         run: |
-          echo "Checking if workflow file exists in $OWNER/$REPO_NAME"
-          WORKFLOW_FILE=".github/workflows/setup-new-repo.yml"
-          WORKFLOW_RESPONSE=$(gh api repos/$OWNER/$REPO_NAME/contents/$WORKFLOW_FILE 2>&1)
-          if echo "$WORKFLOW_RESPONSE" | jq . > /dev/null 2>&1; then
-            echo "::notice::Workflow file found. Proceeding with deletion."
-            SHA=$(echo "$WORKFLOW_RESPONSE" | jq -r '.sha')
+          FILES_TO_DELETE=(
+            "templates/CODEOWNERS"
+            "templates/issues/initial-admin.md"
+            "templates/issues/initial-codeowners.md"
+            "templates/CODEOWNERS"
+          )
 
-            if [ "$SHA" = "null" ] || [ -z "$SHA" ]; then
-              echo "::warning::SHA not found in response. Skipping deletion."
-            else
-              gh api repos/$OWNER/$REPO_NAME/contents/$WORKFLOW_FILE \
+          for file in "${FILES_TO_DELETE[@]}"; do
+            if gh api repos/$OWNER/$REPO_NAME/contents/$file > /dev/null 2>&1; then
+              sha=$(gh api repos/$OWNER/$REPO_NAME/contents/$file | jq -r '.sha')
+              gh api repos/$OWNER/$REPO_NAME/contents/$file \
                 -X DELETE \
-                -F message="Remove setup workflow after initialization" \
-                -F sha="$SHA" || echo "::error::Failed to delete the workflow file."
+                -F message="Remove $file from template repository" \
+                -F sha="$sha" || echo "::error::Failed to delete $file"
+              echo "::notice::Deleted $file"
+            else
+              echo "::warning::File $file not found during cleanup. Skipping."
             fi
-          else
-            echo "::notice::Workflow file not found in $REPO_NAME — skipping deletion."
-            echo "Response from GitHub API: $WORKFLOW_RESPONSE"
-          fi
-
-          if gh api repos/$OWNER/$REPO_NAME/contents/templates > /dev/null 2>&1; then
-            for file in $(gh api repos/$OWNER/$REPO_NAME/contents/templates | jq -r '.[].path'); do
-              if gh api repos/$OWNER/$REPO_NAME/contents/$file > /dev/null 2>&1; then
-                echo "Deleting $file"
-                sha=$(gh api repos/$OWNER/$REPO_NAME/contents/$file | jq -r '.sha')
-                gh api repos/$OWNER/$REPO_NAME/contents/$file \
-                  -X DELETE \
-                  -F message="Remove $file from templates folder" \
-                  -F sha="$sha"
-                echo "::notice::Deleted $file"
-              else
-                echo "::warning::File $file not found during cleanup. Skipping."
-              fi
-            done
-          else
-            echo "No templates folder found to clean up. Skipping."
-          fi
+          done

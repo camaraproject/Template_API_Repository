@@ -2,7 +2,7 @@
 
 - [ ] Review repository settings
 - [ ] Check that the CODEOWNERS file is valid (initial codeowners have accepted the invitation)
-- [ ] Remove the content of /templates and the /.github/workflows/setup-new-repo.yml
+- [ ] Remove /.github/workflows/setup-new-repo.yml in the new repository (as long as it is copied into it)
 - [ ] Update the README
   - choose the right badge (default: Sandbox)
   - choose the right variant for Independent Sandboxes / Sandboxes in Sub Project / ...
