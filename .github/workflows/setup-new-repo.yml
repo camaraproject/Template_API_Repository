@@ -57,14 +57,23 @@ jobs:
           REPO_NAME=${{ github.event.inputs.repo_name }}
           OWNER=$(echo '${{ github.repository }}' | cut -d'/' -f1)
 
-          echo "Checking if repository $OWNER/$REPO_NAME already exists..."
-          if gh api repos/$OWNER/$REPO_NAME > /dev/null 2>&1; then
-            echo "::error::Repository $OWNER/$REPO_NAME already exists. Exiting."
-            exit 1
-          fi
-
           echo "Creating new repository: https://github.com/$OWNER/$REPO_NAME"
           gh repo create "$OWNER/$REPO_NAME" --public --template "$OWNER/$(basename '${{ github.repository }}')" --confirm
+
+          # Wait until the repository is fully accessible
+          for i in {1..5}; do
+            if gh api repos/$OWNER/$REPO_NAME > /dev/null 2>&1; then
+              echo "::notice::Repository $OWNER/$REPO_NAME is now available."
+              break
+            else
+              echo "Waiting for repository $OWNER/$REPO_NAME to become available..."
+              sleep 4
+            fi
+          done
+
+          if ! gh api repos/$OWNER/$REPO_NAME > /dev/null 2>&1; then
+            echo "::warning::Repository $OWNER/$REPO_NAME did not become available after 5 attempts. Continuing anyway."
+          fi
 
           echo "REPO_NAME=$REPO_NAME" >> $GITHUB_ENV
           echo "OWNER=$OWNER" >> $GITHUB_ENV
