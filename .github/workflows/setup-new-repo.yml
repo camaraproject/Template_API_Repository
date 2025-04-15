@@ -12,7 +12,6 @@
 #         - Administration: Read and write (for repo settings, team setup)
 #         - Rulesets: Read and write
 #         - Members: Read-only (for user checks)
-#         - Actions: (optional) Read and write (for cleanup)
 #
 # See: https://github.com/settings/tokens for generating tokens
 #
