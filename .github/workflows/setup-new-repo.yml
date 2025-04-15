@@ -45,12 +45,6 @@ jobs:
             echo "::error::GH_REPO_CREATE_TOKEN is not set. Please configure the secret in the 'repo-setup' environment."
             exit 1
           fi
-          echo "Validating GH token with gh auth status..."
-          gh auth status || {
-            echo "::error::GitHub CLI authentication failed."
-            exit 1
-          }
-          fi
 
       - name: Create new repository and set variables
         run: |
