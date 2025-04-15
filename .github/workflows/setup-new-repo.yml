@@ -70,7 +70,7 @@ jobs:
 
           echo "Creating new repository: https://github.com/$OWNER/$REPO_NAME"
           # Using 'true' instead of deprecated '--confirm' to skip interactive prompt
-          gh repo create "$OWNER/$REPO_NAME" --public --template "$OWNER/$(basename '${{ github.repository }}')" true
+          gh repo create "$OWNER/$REPO_NAME" --public --template "$OWNER/$(basename '${{ github.repository }}')"
 
           # Wait until the repository is fully accessible
           for i in {1..5}; do
