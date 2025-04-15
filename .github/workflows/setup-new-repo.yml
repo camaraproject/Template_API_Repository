@@ -63,6 +63,7 @@ jobs:
       - name: Create new repository and set variables
         run: |
           REPO_NAME=${{ github.event.inputs.repo_name }}
+          # Extract the owner (user or organization) part of the current repository (before the slash)
           OWNER=$(echo '${{ github.repository }}' | cut -d'/' -f1)
 
           echo "Creating new repository: https://github.com/$OWNER/$REPO_NAME"
@@ -94,6 +95,7 @@ jobs:
         run: |
           if gh api orgs/$OWNER/teams > /dev/null 2>&1; then
             if ! gh api orgs/$OWNER/teams/$MAINTAINERS_TEAM > /dev/null 2>&1; then
+              # Retrieve the numeric ID of the 'maintainers' team to use as the parent_team_id
               MAINTAINERS_PARENT_ID=$(gh api orgs/$OWNER/teams/maintainers | jq -r '.id')
               MAINTAINERS_PARENT_ID_NUM=$(echo "$MAINTAINERS_PARENT_ID" | grep -o '[0-9]*')
               echo "Debug: MAINTAINERS_PARENT_ID_NUM=$MAINTAINERS_PARENT_ID_NUM"
@@ -163,6 +165,7 @@ jobs:
           sed -i "s|{{mailinglist_name}}|${{ github.event.inputs.mailinglist_name }}|g" README.md
           sed -i "s|{{initial_codeowners}}|${{ github.event.inputs.initial_codeowners }}|g" README.md
 
+          # Retry loop: waits for README.md to appear in the new repo (max 5 attempts)
           SHA=""
           for i in {1..5}; do
             SHA=$(gh api repos/$OWNER/$REPO_NAME/contents/README.md 2>/dev/null | jq -r '.sha')
@@ -227,6 +230,7 @@ jobs:
           TEMPLATE_REPO=$(basename "${{ github.repository }}")
           echo "Fetching rulesets from $OWNER/$TEMPLATE_REPO"
 
+          # Fetch all rulesets defined in the template repository for later replication
           RULESETS=$(gh api repos/$OWNER/$TEMPLATE_REPO/rulesets \
             -H "Accept: application/vnd.github+json" 2>/dev/null || echo "[]")
 
@@ -265,6 +269,7 @@ jobs:
 
       - name: Cleanup setup artifacts from template repository
         run: |
+          # Explicit list of files to remove after setup (e.g., templates and placeholders)
           FILES_TO_DELETE=(
             "templates/CODEOWNERS"
             "templates/issues/initial-admin.md"
