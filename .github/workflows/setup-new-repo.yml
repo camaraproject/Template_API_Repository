@@ -10,8 +10,6 @@
 #         - Issues: Read and write
 #         - Metadata: Read-only
 #         - Administration: Read and write (for repo settings, team setup)
-#         - Rulesets: Read and write
-#         - Members: Read-only (for user checks)
 #
 # See: https://github.com/settings/tokens for generating tokens
 #
@@ -214,7 +212,7 @@ jobs:
 
       - name: Update CODEOWNERS file
         run: |
-          sed "s|{{initial_codeowners}}|$CODEOWNERS_LIST|g" templates/CODEOWNERS > CODEOWNERS
+          sed "s|{{initial_codeowners}}|$CODEOWNERS_LIST|g" templates/CODEOWNERS_TEMPLATE > CODEOWNERS
           CODEOWNERS_SHA=$(gh api repos/$OWNER/$REPO_NAME/contents/CODEOWNERS | jq -r '.sha')
 
           gh api repos/$OWNER/$REPO_NAME/contents/CODEOWNERS \
