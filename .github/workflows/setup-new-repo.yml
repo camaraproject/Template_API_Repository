@@ -1,4 +1,21 @@
 # .github/workflows/setup-new-repo.yml
+#
+# Prerequisites:
+# - A GitHub environment named `repo-setup` must exist.
+# - The environment must contain a secret `GH_REPO_CREATE_TOKEN`.
+# - This token must be a fine-grained personal access token (FGPAT) with the following:
+#     • Repository access: Allow access to the template repo and target org repos.
+#     • Permissions:
+#         - Contents: Read and write
+#         - Issues: Read and write
+#         - Metadata: Read-only
+#         - Administration: Read and write (for repo settings, team setup)
+#         - Rulesets: Read and write
+#         - Members: Read-only (for user checks)
+#         - Actions: (optional) Read and write (for cleanup)
+#
+# See: https://github.com/settings/tokens for generating tokens
+#
 name: Setup New Repository
 
 on:
@@ -52,7 +69,8 @@ jobs:
           OWNER=$(echo '${{ github.repository }}' | cut -d'/' -f1)
 
           echo "Creating new repository: https://github.com/$OWNER/$REPO_NAME"
-          gh repo create "$OWNER/$REPO_NAME" --public --template "$OWNER/$(basename '${{ github.repository }}')" --confirm
+          # Using 'true' instead of deprecated '--confirm' to skip interactive prompt
+          gh repo create "$OWNER/$REPO_NAME" --public --template "$OWNER/$(basename '${{ github.repository }}')" true
 
           # Wait until the repository is fully accessible
           for i in {1..5}; do
