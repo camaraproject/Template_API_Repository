@@ -268,14 +268,23 @@ jobs:
 
       - name: Cleanup setup artifacts from template repository
         run: |
-          if gh api repos/$OWNER/$REPO_NAME/contents/.github/workflows/setup-new-repo.yml > /dev/null 2>&1; then
-            SHA=$(gh api repos/$OWNER/$REPO_NAME/contents/.github/workflows/setup-new-repo.yml | jq -r '.sha')
-            gh api repos/$OWNER/$REPO_NAME/contents/.github/workflows/setup-new-repo.yml \
-              -X DELETE \
-              -F message="Remove setup workflow after initialization" \
-              -F sha="$SHA"
+          echo "Checking if workflow file exists in $OWNER/$REPO_NAME"
+          WORKFLOW_RESPONSE=$(gh api repos/$OWNER/$REPO_NAME/contents/.github/workflows/setup-new-repo.yml 2>&1)
+          if echo "$WORKFLOW_RESPONSE" | jq . > /dev/null 2>&1; then
+            echo "::notice::Workflow file found. Proceeding with deletion."
+            SHA=$(echo "$WORKFLOW_RESPONSE" | jq -r '.sha')
+
+            if [ "$SHA" = "null" ] || [ -z "$SHA" ]; then
+              echo "::warning::SHA not found in response. Skipping deletion."
+            else
+              gh api repos/$OWNER/$REPO_NAME/contents/.github/workflows/setup-new-repo.yml \
+                -X DELETE \
+                -F message="Remove setup workflow after initialization" \
+                -F sha="$SHA" || echo "::error::Failed to delete the workflow file."
+            fi
           else
             echo "::notice::Workflow file not found in $REPO_NAME — skipping deletion."
+            echo "Response from GitHub API: $WORKFLOW_RESPONSE"
           fi
 
           if gh api repos/$OWNER/$REPO_NAME/contents/templates > /dev/null 2>&1; then
