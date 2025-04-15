@@ -5,42 +5,45 @@
 <a href="https://github.com/camaraproject/{{repo_name}}" title="Repo Size"><img src="https://img.shields.io/github/repo-size/camaraproject/{{repo_name}}?style=plastic"></a>
 <a href="https://github.com/camaraproject/{{repo_name}}/blob/main/LICENSE" title="License"><img src="https://img.shields.io/badge/License-Apache%202.0-green.svg?style=plastic"></a>
 <a href="https://github.com/camaraproject/{{repo_name}}/releases/latest" title="Latest Release"><img src="https://img.shields.io/github/release/camaraproject/{{repo_name}}?style=plastic"></a>
-<!-- Choose one of the following alternatives and then delete the task -->
 <a href="https://github.com/camaraproject/Governance/blob/main/ProjectStructureAndRoles.md" title="Sandbox API Repository"><img src="https://img.shields.io/badge/Sandbox%20API%20Repository-yellow?style=plastic"></a>
 <a href="https://github.com/camaraproject/Governance/blob/main/ProjectStructureAndRoles.md" title="Incubating API Repository"><img src="https://img.shields.io/badge/Incubating%20API%20Repository-green?style=plastic"></a>
 <a href="https://github.com/camaraproject/Governance/blob/main/ProjectStructureAndRoles.md" title="Graduated API Repository"><img src="https://img.shields.io/badge/Graduated%20API%20Repository-silver?style=plastic"></a>
 <a href="https://github.com/camaraproject/Governance/blob/main/ProjectStructureAndRoles.md" title="Working Group"><img src="https://img.shields.io/badge/Working%20Group-red?style=plastic"></a>
+<!-- Choose one of the above four alternative badges and then delete this task -->
 
 # {{repo_name}}
 
 > [!NOTE]
-> What is this repository about and how to use it:
+> What is this template repository about and how to use it:
 >
-> * For codeowners of existing CAMARA repository as a sample how a CAMARA repository should look like, e.g. to update legacy repositories. Have a look specifically on the [code of the README.md](https://github.com/camaraproject/Template_API_Repository/blob/main/README.md?plain=1) for different variants and copy relevant parts into your repository.
+> * For codeowners of existing CAMARA repository it is a sample how a CAMARA repository should look like, e.g. to update legacy repositories. Have a look specifically on the [code of the README.md](https://github.com/camaraproject/Template_API_Repository/blob/main/README.md?plain=1) for different variants and copy relevant parts into your repository.
 > * For CAMARA admins to create new (Sandbox) API repositories automated: Use the `setup-new-repo` workflow together with documentation in [templates/README.md](templates/README.md).
 >
-> The following is the template README for a new independent Sandbox API repository, other variants are within the commented code.
+> The following is the template README for a new independent Sandbox repositories, Sandbox repositories within a Sub Project, and Incubated Repositories. Further variants are within the commented code.
+>
+> This note must be deleted in newly created repositories
 
-<!-- Alternative for new, independent Sandbox API Repositories -->
+---
+<!-- Choose one of the following alternatives and then delete this task -->
+
+<!-- Alternative for new, independent Sandbox API Repositories. Choose the "Sandbox" badge above -->
 Sandbox API Repository to describe, develop, document, and test the {{repo_name}} Service API(s). The repository does not yet belong to a CAMARA Sub Project.
 
 * API Repository [wiki page]({{repo_wiki_page}})
 
-<!-- Alternative for Sandbox API Repositories within the context of an existing Sub Project -->
+---
+<!-- Alternative for Sandbox API Repositories within the context of an existing Sub Project. Choose the "Sandbox" badge above -->
 
-<!--
 Sandbox API Repository to describe, develop, document, and test the {{repo_name}} Service API(s) within the Sub Project [{{subproject_name}}]({{subproject_wiki_page}})
 
 * API Repository [wiki page]({{repo_wiki_page}})
--->
 
-<!-- Alternative for Incubating API Repositories (always part of Sub Project, potentially created as part of the Incubation) --> 
+---
+<!-- Alternative for Incubating API Repositories (always part of Sub Project, potentially created as part of the Incubation). Choose the "Incubating" badge. Change the repository topic to "incubating-api-repository" --> 
 
-<!--
 Incubating API Repository to evolve and maintain the definitions and documentation of {{repo_name}} Service API(s) within the Sub Project [{{subproject_name}}]({{subproject_wiki_page}})
 
 * API Repository [wiki page]({{repo_wiki_page}})
--->
 
 <!-- for Graduation of an API Repository replace "Incubating" with "Graduated" and don't forget to exchange the badge :-) -->
 
@@ -49,7 +52,7 @@ Incubating API Repository to evolve and maintain the definitions and documentati
 Repository for xxx of the {{subproject_name}} Working Group"
 
 * Working Group [wiki home page]({{repo_wiki_page}}) 
-!! Update with concrete link
+
 -->
 
 ## Scope
