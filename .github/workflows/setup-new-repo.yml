@@ -257,18 +257,25 @@ jobs:
               -F message="Remove setup workflow after initialization" \
               -F sha="$SHA"
           else
+            echo "::notice::Workflow file not found in $REPO_NAME — skipping deletion."
+          else
             echo "No setup workflow found in new repo. Skipping deletion."
           fi
-    
+
           if gh api repos/$OWNER/$REPO_NAME/contents/templates > /dev/null 2>&1; then
             for file in $(gh api repos/$OWNER/$REPO_NAME/contents/templates | jq -r '.[].path'); do
-              echo "Deleting $file"
-              sha=$(gh api repos/$OWNER/$REPO_NAME/contents/$file | jq -r '.sha')
-              gh api repos/$OWNER/$REPO_NAME/contents/$file \
-                -X DELETE \
-                -F message="Remove $file from templates folder" \
-                -F sha="$sha"
-              done
+              if gh api repos/$OWNER/$REPO_NAME/contents/$file > /dev/null 2>&1; then
+                echo "Deleting $file"
+                sha=$(gh api repos/$OWNER/$REPO_NAME/contents/$file | jq -r '.sha')
+                gh api repos/$OWNER/$REPO_NAME/contents/$file \
+                  -X DELETE \
+                  -F message="Remove $file from templates folder" \
+                  -F sha="$sha"
+                echo "::notice::Deleted $file"
+              else
+                echo "::warning::File $file not found during cleanup. Skipping."
+              fi
+            done
           else
             echo "No templates folder found to clean up. Skipping."
           fi
