@@ -236,3 +236,27 @@ jobs:
           gh issue comment "$ADMIN_ISSUE_URL" \
             --body "✅ Repository setup has been completed by automation. You may now proceed with the checklist."
 
+      - name: Cleanup setup artifacts
+        run: |
+          if gh api repos/$OWNER/$REPO_NAME/contents/.github/workflows/setup-new-repo.yml > /dev/null 2>&1; then
+            SHA=$(gh api repos/$OWNER/$REPO_NAME/contents/.github/workflows/setup-new-repo.yml | jq -r '.sha')
+            gh api repos/$OWNER/$REPO_NAME/contents/.github/workflows/setup-new-repo.yml \
+              -X DELETE \
+              -F message="Remove setup workflow after initialization" \
+              -F sha="$SHA"
+          else
+            echo "No setup workflow found in new repo. Skipping deletion."
+          fi
+    
+          if gh api repos/$OWNER/$REPO_NAME/contents/templates > /dev/null 2>&1; then
+            for file in $(gh api repos/$OWNER/$REPO_NAME/contents/templates | jq -r '.[].path'); do
+              echo "Deleting $file"
+              sha=$(gh api repos/$OWNER/$REPO_NAME/contents/$file | jq -r '.sha')
+              gh api repos/$OWNER/$REPO_NAME/contents/$file \
+                -X DELETE \
+                -F message="Remove $file from templates folder" \
+                -F sha="$sha"
+              done
+          else
+            echo "No templates folder found to clean up. Skipping."
+          fi
