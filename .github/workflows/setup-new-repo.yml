@@ -1,4 +1,18 @@
 # .github/workflows/setup-new-repo.yml
+#
+# Prerequisites:
+# - A GitHub environment named `repo-setup` must exist.
+# - The environment must contain a secret `GH_REPO_CREATE_TOKEN`.
+# - This token must be a fine-grained personal access token (FGPAT) with the following:
+#     • Repository access: Allow access to the template repo and target org repos.
+#     • Permissions:
+#         - Contents: Read and write
+#         - Issues: Read and write
+#         - Metadata: Read-only
+#         - Administration: Read and write (for repo settings, team setup)
+#
+# See: https://github.com/settings/tokens for generating tokens
+#
 name: Setup New Repository
 
 on:
@@ -38,24 +52,39 @@ jobs:
       - name: Checkout template repository
         uses: actions/checkout@v4
 
-      - name: Set up GitHub CLI token with personal access token
+      - name: Set up GitHub CLI token with personal fine grained access token
         run: |
+          # Use GH_REPO_CREATE_TOKEN as the authentication token for all GitHub CLI commands
           echo "GH_TOKEN=${{ secrets.GH_REPO_CREATE_TOKEN }}" >> $GITHUB_ENV
-          echo "Token GH_REPO_CREATE_TOKEN ready for use in GitHub CLI"
+          if [ -z "${{ secrets.GH_REPO_CREATE_TOKEN }}" ]; then
+            echo "::error::GH_REPO_CREATE_TOKEN is not set. Please configure the secret in the 'repo-setup' environment."
+            exit 1
+          fi
 
       - name: Create new repository and set variables
         run: |
           REPO_NAME=${{ github.event.inputs.repo_name }}
+          # Extract the owner (user or organization) part of the current repository (before the slash)
           OWNER=$(echo '${{ github.repository }}' | cut -d'/' -f1)
 
-          echo "Checking if repository $OWNER/$REPO_NAME already exists..."
-          if gh api repos/$OWNER/$REPO_NAME > /dev/null 2>&1; then
-            echo "::error::Repository $OWNER/$REPO_NAME already exists. Exiting."
-            exit 1
-          fi
-
           echo "Creating new repository: https://github.com/$OWNER/$REPO_NAME"
-          gh repo create "$OWNER/$REPO_NAME" --public --template "$OWNER/$(basename '${{ github.repository }}')" --confirm
+          # Creates a new public repository using the current repository as a template
+          gh repo create "$OWNER/$REPO_NAME" --public --template "$OWNER/$(basename '${{ github.repository }}')"
+
+          # Wait until the repository is fully accessible
+          for i in {1..5}; do
+            if gh api repos/$OWNER/$REPO_NAME > /dev/null 2>&1; then
+              echo "::notice::Repository $OWNER/$REPO_NAME is now available."
+              break
+            else
+              echo "Waiting for repository $OWNER/$REPO_NAME to become available..."
+              sleep 4
+            fi
+          done
+
+          if ! gh api repos/$OWNER/$REPO_NAME > /dev/null 2>&1; then
+            echo "::warning::Repository $OWNER/$REPO_NAME did not become available after 5 attempts. Continuing anyway."
+          fi
 
           echo "REPO_NAME=$REPO_NAME" >> $GITHUB_ENV
           echo "OWNER=$OWNER" >> $GITHUB_ENV
@@ -67,6 +96,7 @@ jobs:
         run: |
           if gh api orgs/$OWNER/teams > /dev/null 2>&1; then
             if ! gh api orgs/$OWNER/teams/$MAINTAINERS_TEAM > /dev/null 2>&1; then
+              # Retrieve the numeric ID of the 'maintainers' team to use as the parent_team_id
               MAINTAINERS_PARENT_ID=$(gh api orgs/$OWNER/teams/maintainers | jq -r '.id')
               MAINTAINERS_PARENT_ID_NUM=$(echo "$MAINTAINERS_PARENT_ID" | grep -o '[0-9]*')
               echo "Debug: MAINTAINERS_PARENT_ID_NUM=$MAINTAINERS_PARENT_ID_NUM"
@@ -101,6 +131,10 @@ jobs:
             fi
 
             CODEOWNERS_LIST=$(echo "$CODEOWNERS_LIST" | xargs)
+            # Loop through each provided GitHub username and invite them to the codeowners team
+            # Note: users who are not yet members of the organization will be invited to join
+            # and will need to accept the invitation before they are part of the team and the CODEOWNERS file get fully valid
+            echo "Inviting users to team $CODEOWNERS_TEAM: [$CODEOWNERS_LIST]"
             for username in $CODEOWNERS_LIST; do
               clean_user=$(echo "$username" | sed 's/^@//')
               echo "Checking if @$clean_user is a valid GitHub user..."
@@ -118,7 +152,7 @@ jobs:
       - name: Configure repository settings
         run: |
           gh repo edit $OWNER/$REPO_NAME \
-            --description "$REPO_NAME" \
+            --description "Sandbox API Repository for $REPO_NAME API(s)" \
             --homepage "${{ github.event.inputs.repo_wiki_page }}" \
             --add-topic sandbox-api-repository
           gh api -X PATCH repos/$OWNER/$REPO_NAME \
@@ -128,7 +162,8 @@ jobs:
 
       - name: Update README.md placeholders
         run: |
-          # changes the README.md from template repository and updates the README.md in the new repository with it 
+          # Replace placeholders in the template README.md and push the updated version to the new repository
+          # Note: the README.md file is expected to be in the root of the repository
           sed -i "s/{{repo_name}}/$REPO_NAME/g" README.md
           sed -i "s|{{repo_wiki_page}}|${{ github.event.inputs.repo_wiki_page }}|g" README.md
           sed -i "s|{{subproject_name}}|${{ github.event.inputs.subproject_name }}|g" README.md
@@ -136,6 +171,7 @@ jobs:
           sed -i "s|{{mailinglist_name}}|${{ github.event.inputs.mailinglist_name }}|g" README.md
           sed -i "s|{{initial_codeowners}}|${{ github.event.inputs.initial_codeowners }}|g" README.md
 
+          # Retry loop: waits for README.md to appear in the new repo (max 5 attempts)
           SHA=""
           for i in {1..5}; do
             SHA=$(gh api repos/$OWNER/$REPO_NAME/contents/README.md 2>/dev/null | jq -r '.sha')
@@ -185,7 +221,10 @@ jobs:
 
       - name: Update CODEOWNERS file
         run: |
-          sed "s|{{initial_codeowners}}|$CODEOWNERS_LIST|g" templates/CODEOWNERS > CODEOWNERS
+          # Replace placeholder in CODEOWNERS template with actual list of codeowners
+          # Note: also users who are skipped during team invitation will be added to the CODEOWNERS file and
+          # might need to be corrected manually later and invited manually to the CODEOWNERS team
+          sed "s|{{initial_codeowners}}|$CODEOWNERS_LIST|g" templates/CODEOWNERS_TEMPLATE > CODEOWNERS
           CODEOWNERS_SHA=$(gh api repos/$OWNER/$REPO_NAME/contents/CODEOWNERS | jq -r '.sha')
 
           gh api repos/$OWNER/$REPO_NAME/contents/CODEOWNERS \
@@ -200,6 +239,7 @@ jobs:
           TEMPLATE_REPO=$(basename "${{ github.repository }}")
           echo "Fetching rulesets from $OWNER/$TEMPLATE_REPO"
 
+          # Fetch all rulesets defined in the template repository for later replication
           RULESETS=$(gh api repos/$OWNER/$TEMPLATE_REPO/rulesets \
             -H "Accept: application/vnd.github+json" 2>/dev/null || echo "[]")
 
@@ -236,3 +276,25 @@ jobs:
           gh issue comment "$ADMIN_ISSUE_URL" \
             --body "✅ Repository setup has been completed by automation. You may now proceed with the checklist."
 
+      - name: Cleanup setup artifacts from template repository
+        run: |
+          # Explicit list of files to remove after setup (e.g., templates and placeholders)
+          FILES_TO_DELETE=(
+            "templates/CODEOWNERS"
+            "templates/issues/initial-admin.md"
+            "templates/issues/initial-codeowners.md"
+            "templates/README.md"
+          )
+
+          for file in "${FILES_TO_DELETE[@]}"; do
+            if gh api repos/$OWNER/$REPO_NAME/contents/$file > /dev/null 2>&1; then
+              sha=$(gh api repos/$OWNER/$REPO_NAME/contents/$file | jq -r '.sha')
+              gh api repos/$OWNER/$REPO_NAME/contents/$file \
+                -X DELETE \
+                -F message="Remove $file from template repository" \
+                -F sha="$sha" || echo "::error::Failed to delete $file"
+              echo "::notice::Deleted $file"
+            else
+              echo "::warning::File $file not found during cleanup. Skipping."
+            fi
+          done

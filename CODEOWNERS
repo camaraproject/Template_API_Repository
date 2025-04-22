@@ -1,4 +1,6 @@
-# This file provides an overview of code owners in this repository.
+# This file provides an overview of code owners in this repository
+
+# Note: this is the actual CODEOWNERS file to protect the template repository. The CODEONWERS file in newly created repositories will be build based on /templates/CODEOWNERS_TEMPLATE
 
 # Each line is a file pattern followed by one or more owners.
 # The last matching pattern has the most precedence.
