@@ -280,7 +280,7 @@ jobs:
         run: |
           # Explicit list of files to remove after setup (e.g., templates and placeholders)
           FILES_TO_DELETE=(
-            "templates/CODEOWNERS"
+            "templates/CODEOWNERS_TEMPLATE"
             "templates/issues/initial-admin.md"
             "templates/issues/initial-codeowners.md"
             "templates/README.md"
