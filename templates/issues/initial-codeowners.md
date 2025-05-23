@@ -1,6 +1,6 @@
 ## Initial Tasks for Codeowners
 
-- [ ] Confirm CODEOWNERS file is correct
+- [ ] Confirm that the CODEOWNERS file is correct
 - [ ] Update the scope section within README
 - [ ] Create first issues to work on (e.g. an initial API draft)
   
