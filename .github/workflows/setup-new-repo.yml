@@ -189,6 +189,41 @@ jobs:
             -F message='Update README.md with project metadata' \
             -F content="$(base64 -w 0 README.md)" \
             -F sha="$SHA"
+            
+      - name: Update issue template config placeholders
+        run: |
+          # Update .github/ISSUE_TEMPLATE/config.yml placeholders
+          CONFIG_FILE=".github/ISSUE_TEMPLATE/config.yml"
+          if [ -f "$CONFIG_FILE" ]; then
+            echo "Updating $CONFIG_FILE placeholders..."
+            sed -i "s/{{repo_name}}/$REPO_NAME/g" $CONFIG_FILE
+
+            # Wait for the config.yml file to be available in the new repository
+            CONFIG_SHA=""
+            for i in {1..5}; do
+              CONFIG_SHA=$(gh api repos/$OWNER/$REPO_NAME/contents/$CONFIG_FILE 2>/dev/null | jq -r '.sha')
+              if [ "$CONFIG_SHA" != "null" ] && [ -n "$CONFIG_SHA" ]; then
+                echo "Found $CONFIG_FILE sha: $CONFIG_SHA"
+                break
+              else
+                echo "$CONFIG_FILE not yet available, retrying in 2s..."
+                sleep 2
+              fi
+            done
+
+            if [ "$CONFIG_SHA" != "null" ] && [ -n "$CONFIG_SHA" ]; then
+              gh api repos/$OWNER/$REPO_NAME/contents/$CONFIG_FILE \
+                -X PUT \
+                -F message="Update $CONFIG_FILE with project metadata" \
+                -F content="$(base64 -w 0 $CONFIG_FILE)" \
+                -F sha="$CONFIG_SHA"
+              echo "Successfully updated $CONFIG_FILE"
+            else
+              echo "::warning::Could not find $CONFIG_FILE in the repository. Skipping update."
+            fi
+          else
+            echo "::warning::$CONFIG_FILE not found in template. Skipping update."
+          fi
 
       - name: Set team permissions
         run: |
