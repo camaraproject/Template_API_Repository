@@ -17,7 +17,7 @@
 > What is this template repository about and how to use it:
 >
 > * For codeowners of existing CAMARA repository it is a sample how a CAMARA repository should look like, e.g. to update legacy repositories. Have a look specifically on the [code of the README.md](https://github.com/camaraproject/Template_API_Repository/blob/main/README.md?plain=1) for different variants and copy relevant parts into your repository.
-> * For CAMARA admins to create new (Sandbox) API repositories automated: Use the `setup-new-repo` workflow together with documentation in [templates/README.md](templates/README.md).
+> * For CAMARA admins to create new (Sandbox) API repositories together with the automated workflow (will be provided soon in a to be created `project-administration` repository)
 >
 > The following is the template README for a new independent Sandbox repositories, Sandbox repositories within a Sub Project, and Incubated Repositories. Further variants are within the commented code.
 >
