@@ -1,6 +1,6 @@
 ## Initial Administrative Tasks
 
-- [ ] Review repository settings, see [documentation of workflow](https://github.com/camaraproject/Template_API_Repository/tree/main/templates).
+- [ ] Review repository settings, see [documentation of workflow](https://github.com/camaraproject/project-administration/blob/main/documentation/project-admin-api-repository-creation.md).
 - [ ] Check that the CODEOWNERS file is valid (potential need to wait until initial codeowners have accepted the invitation)
 - [ ] Update the README
   - choose the right badge (default: Sandbox)
