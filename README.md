@@ -64,14 +64,16 @@ Repository for xxx of the {{subproject_name}} Working Group"
 * Started: §start date§
 <!-- * Incubating stage since: {{incubation date}} --> 
 
+<!-- CAMARA:RELEASE-INFO:START -->
+<!-- The following section is automatically maintained by the CAMARA project-administration tooling: https://github.com/camaraproject/project-administration -->
+
 ## Release Information
 
 The repository has no (pre)releases yet, work in progress is within the main branch.
-<!-- Optional: an explicit listing of the latest (pre-)release with additional information, e.g. links to the API definitions -->
-<!-- In addition use/uncomment one or multiple the following alternative options when becoming applicable -->
-<!-- Pre-releases of this sub project are available in https://github.com/camaraproject/{{repo_name}}/releases -->
-<!-- The latest public release is available here: https://github.com/camaraproject/{{repo_name}}/releases/latest -->
-<!-- For changes see [CHANGELOG.md](https://github.com/camaraproject/{{repo_name}}/blob/main/CHANGELOG.md) -->
+
+---
+_This section is automatically synchronized by CAMARA project-administration from [data/releases-master.yaml](https://github.com/camaraproject/project-administration/blob/main/data/releases-master.yaml)._
+<!-- CAMARA:RELEASE-INFO:END -->
 
 ## Contributing
 
