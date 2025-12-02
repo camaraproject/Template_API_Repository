@@ -2,6 +2,9 @@
 
 - [ ] Review repository settings, see [documentation of workflow](https://github.com/camaraproject/project-administration/blob/main/documentation/project-admin-api-repository-creation.md).
 - [ ] Check that the CODEOWNERS file is valid (potential need to wait until initial codeowners have accepted the invitation)
+- [ ] add the maintainers team to the appropriate parent team:
+  - maintainers_independent-api-repositories for independent Sandbox API repos
+  - Respective Sub Project maintainer team for Sub Project repos
 - [ ] Update the README
   - choose the right badge (default: Sandbox)
   - choose the right variant for Independent Sandboxes,Sandboxes in Sub Project, Incubating, or repository for working group
