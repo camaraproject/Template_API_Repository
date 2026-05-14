@@ -1,6 +1,6 @@
 ## Initial Administrative Tasks
 
-- [ ] Review repository settings, see [documentation of workflow](https://github.com/camaraproject/project-administration/blob/main/documentation/project-admin-api-repository-creation.md).
+- [ ] Review repository settings, see [documentation of workflow](https://github.com/hdamker/project-administration/tree/main/workflows/api-repository-creation/docs) (for a normal API Repository the settings should be correct done by the workflow)
 - [ ] Check that the CODEOWNERS file is valid (potential need to wait until initial codeowners have accepted the invitation)
 - [ ] add the maintainers team to the appropriate parent team:
   - maintainers_independent-api-repositories for independent Sandbox API repos
@@ -10,4 +10,3 @@
   - choose the right variant for Independent Sandboxes,Sandboxes in Sub Project, Incubating, or repository for working group
   - check the wiki links for correctness
 - [ ] Assign the initial issue for CODEWONERS to the appropriate codeowners
-- [ ] Update the Onboarding Tracker issue within APIBacklog repository
